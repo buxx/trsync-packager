@@ -39,15 +39,15 @@ def main():
     if not pathlib.Path("trsync-manager-configure\venv").exists():
         exec("cd trsync-manager-configure && python -m venv venv")
     exec("cd trsync-manager-configure && git pull")
-    # exec(
-    #    "cd trsync-manager-configure && .\venv\Scripts\activate.bat && pip install pip setuptools wheel pyinstaller"
-    # )
-    # exec(
-    #    "cd trsync-manager-configure && .\venv\Scripts\activate.bat && pip install -r requirements.txt"
-    # )
-    # exec(
-    #    "cd trsync-manager-configure && .\venv\Scripts\ctivate.bat && pyinstaller --name configure --onefile run.py"
-    # )
+    exec(
+        r"cd trsync-manager-configure && .\venv\Scripts\activate.bat && pip install pip setuptools wheel pyinstaller"
+    )
+    exec(
+        r"cd trsync-manager-configure && .\venv\Scripts\activate.bat && pip install -r requirements.txt"
+    )
+    exec(
+        r"cd trsync-manager-configure && .\venv\Scripts\activate.bat && pyinstaller --name configure --onefile run.py"
+    )
 
 
 if __name__ == "__main__":
