@@ -36,10 +36,11 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\User\Projets\trsync-packager\trsync-manager-systray\target\release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\User\Projets\trsync-packager\trsync\target\release\trsync.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\User\Projets\trsync-packager\trsync-manager-configure\dist\configure.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\User\Projets\trsync-packager\trsync-manager\target\release\trsync-manager.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\trsync-manager-systray\target\release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\trsync\target\release\trsync.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\trsync-manager-configure\dist\configure.exe"; DestDir: "{app}"; Flags: ignoreversion   
+Source: ".\trsync-manager\target\release\trsync-manager.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\trsync.conf"; DestDir: "{localappdata}"; Flags: ignoreversion; AfterInstall: UpdateConfig()
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -47,5 +48,35 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent;
 
+[Code]
+procedure MyBeforeInstall();
+begin
+  MsgBox('About to install MyProg.exe as ' + CurrentFileName + '.', mbInformation, MB_OK);
+end;
+
+procedure UpdateConfig();
+var
+  LocalAppDataValue : string;
+  AppValue : string;
+  FileName : string;
+  MyFile : TStrings;
+  MyText : string;
+begin  
+  AppValue := ExpandConstant('{app}');
+  LocalAppDataValue := ExpandConstant('{localappdata}');
+  FileName := LocalAppDataValue + '\trsync.conf';
+  MyFile := TStringList.Create;
+  try
+    MyFile.LoadFromFile(FileName);
+    MyText := MyFile.Text;
+
+    { Only save if text has been changed. }
+    StringChangeEx(MyText, '__TRACIM_EXES_FOLDER__', AppValue, True);
+    MyFile.Text := MyText;
+    MyFile.SaveToFile(FileName);
+  finally
+    MyFile.Free;
+  end;
+end;
