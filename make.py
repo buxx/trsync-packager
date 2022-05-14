@@ -19,19 +19,9 @@ def main():
     if not pathlib.Path("trsync").exists():
         exec("git clone https://github.com/buxx/trsync")
     exec("cd trsync && git pull")
-    exec("cd trsync && cargo build --release --features windows")
-
-    print("Build trsync-manager ...")
-    if not pathlib.Path("trsync-manager").exists():
-        exec("git clone https://github.com/buxx/trsync-manager")
-    exec("cd trsync-manager && git pull")
-    exec("cd trsync-manager && cargo build --release")
-
-    print("Build trsync-manager-systray ...")
-    if not pathlib.Path("trsync-manager-systray").exists():
-        exec("git clone https://github.com/buxx/trsync-manager-systray")
-    exec("cd trsync-manager-systray && git pull")
-    exec("cd trsync-manager-systray && cargo build --release")
+    exec(
+        "cd trsync && cargo build --bin --release --features windows trsync_manager_systray"
+    )
 
     print("Build trsync-manager-configure ...")
     if not pathlib.Path("trsync-manager-configure").exists():
