@@ -20,7 +20,7 @@ def main():
         exec("git clone https://github.com/buxx/trsync")
     exec("cd trsync && git pull")
     exec(
-        "cd trsync && cargo build --bin --release --features windows trsync_manager_systray"
+        "cd trsync && cargo build --release --features windows --bin trsync_manager_systray"
     )
 
     print("Build trsync-manager-configure ...")

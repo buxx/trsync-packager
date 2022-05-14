@@ -5,7 +5,7 @@
 #define MyAppVersion "0.1"
 #define MyAppPublisher "Bastien Sevajol"
 #define MyAppURL "https://github.com/buxx/trsync"
-#define MyAppExeName "trsync-systray.exe"
+#define MyAppExeName "trsync_manager_systray.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -23,7 +23,7 @@ DisableProgramGroupPage=yes
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
-OutputBaseFilename=setup
+OutputBaseFilename=tracim
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -42,8 +42,34 @@ Source: ".\trsync.conf"; DestDir: "{localappdata}"; Flags: ignoreversion; AfterI
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\trsync_manager_systray.exe"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\trsync_manager_systray.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent;
+
+[Code]
+procedure UpdateConfig();
+var
+  LocalAppDataValue : string;
+  AppValue : string;
+  FileName : string;
+  MyFile : TStrings;
+  MyText : string;
+begin  
+  AppValue := ExpandConstant('{app}');
+  LocalAppDataValue := ExpandConstant('{localappdata}');
+  FileName := LocalAppDataValue + '\trsync.conf';
+  MyFile := TStringList.Create;
+  try
+    MyFile.LoadFromFile(FileName);
+    MyText := MyFile.Text;
+
+    { Only save if text has been changed. }
+    StringChangeEx(MyText, '__TRACIM_EXES_FOLDER__', AppValue, True);
+    MyFile.Text := MyText;
+    MyFile.SaveToFile(FileName);
+  finally
+    MyFile.Free;
+  end;
+end;
