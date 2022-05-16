@@ -65,8 +65,9 @@ begin
     MyFile.LoadFromFile(FileName);
     MyText := MyFile.Text;
 
-    { Only save if text has been changed. }
+    { Only save if text has been changed. }  
     StringChangeEx(MyText, '__TRACIM_EXES_FOLDER__', AppValue, True);
+    StringChangeEx(MyText, '\', '\\', True);
     MyFile.Text := MyText;
     MyFile.SaveToFile(FileName);
   finally
