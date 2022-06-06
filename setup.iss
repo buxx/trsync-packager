@@ -5,7 +5,7 @@
 #define MyAppVersion "0.1"
 #define MyAppPublisher "Bastien Sevajol"
 #define MyAppURL "https://github.com/buxx/trsync"
-#define MyAppExeName "trsync_manager_systray.exe"
+#define MyAppExeName "trsync-manager-systray.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -36,14 +36,14 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: ".\trsync\target\release\trsync_manager_systray.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\trsync-manager-configure\dist\configure.exe"; DestDir: "{app}"; Flags: ignoreversion   
+Source: ".\trsync\target\release\trsync_manager_systray.exe"; DestDir: "{app}"; DestName: "trsync_manager_systray.exe"; Flags: ignoreversion
+Source: ".\trsync-manager-configure\dist\trsync-manager-config.exe"; DestDir: "{app}"; DestName: "trsync-manager-config.exe"; Flags: ignoreversion
 Source: ".\trsync.conf"; DestDir: "{localappdata}"; Flags: ignoreversion; AfterInstall: UpdateConfig()
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\trsync_manager_systray.exe"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\trsync_manager_systray.exe"; Tasks: desktopicon
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\trsync-manager-systray.exe"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\trsync-manager-systray.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent;

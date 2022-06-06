@@ -36,7 +36,7 @@ def main():
         r"cd trsync-manager-configure && .\venv\Scripts\activate.bat && pip install -r requirements.txt"
     )
     exec(
-        r"cd trsync-manager-configure && .\venv\Scripts\activate.bat && pyinstaller --name configure --onefile run.py"
+        r"cd trsync-manager-configure && .\venv\Scripts\activate.bat && pyinstaller --name trsync-manager-config --onefile run.py"
     )
 
 
