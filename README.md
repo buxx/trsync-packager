@@ -8,4 +8,5 @@ If Windows < 11, install winget. Then :
 * Install Rust from https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe
 * Install InnoSetup from https://jrsoftware.org/isdl.php
 * Run make.py script with `python make.py`
-* Open setup.iss (with inno setup) then build the .exe installer
+
+Installer is now available in dist/tracim.exe
