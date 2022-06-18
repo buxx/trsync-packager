@@ -39,6 +39,10 @@ def main():
         r"cd trsync-manager-configure && .\venv\Scripts\activate.bat && pyinstaller --name trsync-manager-config --onefile run.py"
     )
 
+    print("Build installer ...")
+    # TODO : Solve PATH problem to permit use ISCC.exe without absolute url
+    exec('"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss')
+
 
 if __name__ == "__main__":
     main()
