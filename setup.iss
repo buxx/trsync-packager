@@ -57,16 +57,16 @@ var
   MyFile : TStrings;
   MyText : string;
 begin  
-  AppValue := ExpandConstant('{app}');
   LocalAppDataValue := ExpandConstant('{localappdata}');
   FileName := LocalAppDataValue + '\trsync.conf';
+  TrsyncManagerConfigurePath := ExpandConstant('{app}') + '\trsync-manager-config.exe';
   MyFile := TStringList.Create;
   try
     MyFile.LoadFromFile(FileName);
     MyText := MyFile.Text;
 
     { Only save if text has been changed. }  
-    StringChangeEx(MyText, '__TRACIM_EXES_FOLDER__', AppValue, True);
+    StringChangeEx(MyText, '__TRSYNC_MANAGER_CONFIGURE_PATH__', TrsyncManagerConfigurePath, True);
     StringChangeEx(MyText, '\', '\\', True);
     MyFile.Text := MyText;
     MyFile.SaveToFile(FileName);

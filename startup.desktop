@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=__EXE_FILE_PATH__
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[fr_FR]=TrSync
+Name=TrSync
+Comment[fr_FR]=Synchronisation entre vos Tracim et vos dossiers
+Comment=Synchronization between your Tracim and yours folders

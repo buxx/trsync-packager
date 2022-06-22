@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=__VERSION__
+Type=Application
+Terminal=false
+Exec=__EXEC_PATH__
+Name=TrSync
+Icon=__ICON_PATH__
