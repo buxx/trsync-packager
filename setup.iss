@@ -52,10 +52,10 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 procedure UpdateConfig();
 var
   LocalAppDataValue : string;
-  AppValue : string;
   FileName : string;
   MyFile : TStrings;
   MyText : string;
+  TrsyncManagerConfigurePath : string;
 begin  
   LocalAppDataValue := ExpandConstant('{localappdata}');
   FileName := LocalAppDataValue + '\trsync.conf';
