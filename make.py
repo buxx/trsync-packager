@@ -1,5 +1,6 @@
 import argparse
 from codecs import ignore_errors
+import configparser
 import os
 import pathlib
 import platform
@@ -176,6 +177,7 @@ def main():
         pathlib.Path(bin_path) / "trsync-manager-configure"
     )
     trsync_manager_systray_bin_path = pathlib.Path(bin_path) / "trsync-manager-systray"
+    icons_path = pathlib.Path(args.user_icons_dir_path).expanduser()
 
     if args.build_installer:
         if system.Windows:
@@ -224,13 +226,28 @@ def main():
                     "__TRSYNC_MANAGER_CONFIGURE_PATH__",
                     str(trsync_manager_configure_bin_path),
                 )
+                config_content += f"icons_path = {icons_path}\n"
                 if (
                     not trsync_manager_config_path.exists()
                     or args.replace_config_if_exist
                 ):
                     trsync_manager_config_path.write_text(config_content)
             else:
-                print(f"Config file '{trsync_manager_config_path}' already exist")
+                print(
+                    f"Config file '{trsync_manager_config_path}' already exist, update it if required"
+                )
+                config = configparser.ConfigParser()
+                config.read(trsync_manager_config_path)
+                if config.get("server", "icons_path", fallback=None) is None:
+                    config.set("server", "icons_path", str(icons_path))
+                    with trsync_manager_config_path.open("w") as f:
+                        config.write(f)
+
+            print(f"Install icons at '{icons_path}' ...")
+            icons_path.mkdir(parents=True, exist_ok=True)
+            for icon_path in pathlib.Path("trsync/systray").glob("trsync*.png"):
+                shutil.copy(icon_path, icons_path)
+
         else:
             print(
                 f"Operation (--install) not supported on this system ('{system.name}')"
@@ -263,9 +280,6 @@ def main():
                 pathlib.Path(args.desktop_entry_dir_path).expanduser()
                 / "trsync.desktop"
             )
-            icon_path = (
-                pathlib.Path(args.user_icons_dir_path).expanduser() / "trsync.png"
-            )
 
             print(f"Install desktop entry at '{desktop_entry_dir_path}' ...")
             desktop_entry_dir_path.parent.mkdir(parents=True, exist_ok=True)
@@ -279,15 +293,10 @@ def main():
                 "__EXEC_PATH__",
                 str(trsync_manager_systray_bin_path),
             )
-            script_content = script_content.replace("__ICON_PATH__", str(icon_path))
-            desktop_entry_dir_path.write_text(script_content)
-
-            print(f"Install icon at '{icon_path}' ...")
-            icon_path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy(
-                pathlib.Path("icon.png"),
-                icon_path,
+            script_content = script_content.replace(
+                "__ICON_PATH__", str(icons_path / "trsync.png")
             )
+            desktop_entry_dir_path.write_text(script_content)
 
         else:
             print(
