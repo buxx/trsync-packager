@@ -28,7 +28,7 @@ Then :
 
     python3 make.py --build-installer
 
-Installer is now available at `dist/tracim.exe`
+Installer is now available at `dist/trsync.exe`
 
 ### Install
 
