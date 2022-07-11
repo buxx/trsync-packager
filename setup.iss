@@ -44,6 +44,7 @@ Source: ".\trsync.conf"; DestDir: "{localappdata}"; Flags: ignoreversion; AfterI
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\trsync-manager-systray.exe"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\trsync-manager-systray.exe"; Tasks: desktopicon
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\trsync-manager-systray.exe"; WorkingDir: "{app}"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent;
