@@ -257,10 +257,9 @@ def main():
     if args.install_startup:
         if system == System.Linux:
             # FIXME : check compatibility with current OS
-            startup_script_path = (
-                pathlib.Path(args.startup_config_path).expanduser()
-                / "trsync-manager-systray.desktop"
-            )
+            startup_config_path = pathlib.Path(args.startup_config_path).expanduser()
+            startup_config_path.mkdir(parents=True, exist_ok=True)
+            startup_script_path = startup_config_path / "trsync-manager-systray.desktop"
             print(f"Install startup script at '{startup_script_path}' ...")
             log_file_path.parent.mkdir(parents=True, exist_ok=True)
             script_content = pathlib.Path("startup.desktop").read_text()
