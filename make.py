@@ -293,7 +293,7 @@ def main():
                 str(trsync_manager_systray_bin_path),
             )
             script_content = script_content.replace(
-                "__ICON_PATH__", str(icons_path / "trsync_idle.png")
+                "__ICON_PATH__", str(icons_path / "trsync.png")
             )
             desktop_entry_dir_path.write_text(script_content)
 
