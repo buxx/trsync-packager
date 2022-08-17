@@ -168,7 +168,7 @@ def main():
     print("Build trsync-manager-configure binary ...")
     exec(
         f"cd {working_directory/'trsync-manager-configure'} && "
-        rf"{venv_activate} && pyinstaller --name trsync-manager-config --onefile run.py",
+        rf"{venv_activate} && pyinstaller --name trsync-manager-config --onefile --hidden-import=tkinter run.py",
         log_file_path,
     )
 
