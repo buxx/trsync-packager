@@ -10,9 +10,11 @@ Python >= 3.8, Rust >= 1.56.0 and some libs (install example for debian likes) :
 
 ### Windows
 
-If Windows < 11, install winget.
+#### Windows 10
 
-Then :
+install winget and then follow Windows 11 install
+
+#### Windows 11
 
 * Install git `winget install git`
 * Install Python 3.8 `winget install -e --id Python.Python.3 -v 3.8.10150.0`
