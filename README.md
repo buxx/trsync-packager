@@ -6,7 +6,7 @@
 
 Python >= 3.8, Rust >= 1.56.0 and some libs (install example for debian likes) :
 
-    apt-get install build-essential pkg-config libssl-dev libsqlite3-dev libpango1.0-dev libgtk-3-dev
+    apt-get install build-essential pkg-config libssl-dev libsqlite3-dev libpango1.0-dev libgtk-3-dev python3-venv
 
 ### Windows
 
