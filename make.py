@@ -31,7 +31,7 @@ def exec(command: str, log_file_path: pathlib.Path) -> None:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Process some integers.")
+    parser = argparse.ArgumentParser(description="Install Trsync or package it")
     parser.add_argument(
         "--build-installer",
         action="store_true",
@@ -129,53 +129,7 @@ def main():
         log_file_path,
     )
 
-    if not pathlib.Path("trsync-manager-configure").exists():
-        print("Clone trsync-manager-configure sources ...")
-        exec(
-            f"cd {working_directory} && git clone https://github.com/buxx/trsync-manager-configure",
-            log_file_path,
-        )
-
-    if not pathlib.Path("trsync-manager-configure\venv").exists():
-        print("Create trsync-manager-configure venv ...")
-        exec(
-            f"cd {working_directory/'trsync-manager-configure'} && {args.python_bin} -m venv venv",
-            log_file_path,
-        )
-
-    print("Pull latest trsync-manager-configure source code version ...")
-    exec(
-        f"cd {working_directory/'trsync-manager-configure'} && git pull", log_file_path
-    )
-
-    print("Update latest trsync-manager-configure dependencies ...")
-    venv_activate = (
-        r".\venv\Scripts\activate.bat"
-        if system == System.Windows
-        else ". venv/bin/activate"
-    )
-    exec(
-        f"cd {working_directory/'trsync-manager-configure'} && "
-        rf"{venv_activate} && pip install pip setuptools wheel pyinstaller",
-        log_file_path,
-    )
-    exec(
-        f"cd {working_directory/'trsync-manager-configure'} && "
-        rf"{venv_activate} && pip install -r requirements.txt",
-        log_file_path,
-    )
-
-    print("Build trsync-manager-configure binary ...")
-    exec(
-        f"cd {working_directory/'trsync-manager-configure'} && "
-        rf"{venv_activate} && pyinstaller --name trsync-manager-config --onefile --hidden-import=tkinter run.py",
-        log_file_path,
-    )
-
     bin_path = pathlib.Path(args.bin_path).expanduser()
-    trsync_manager_configure_bin_path = (
-        pathlib.Path(bin_path) / "trsync-manager-configure"
-    )
     trsync_manager_systray_bin_path = pathlib.Path(bin_path) / "trsync-manager-systray"
     icons_path = pathlib.Path(args.user_icons_dir_path).expanduser()
 
@@ -197,15 +151,6 @@ def main():
             bin_path.mkdir(parents=True, exist_ok=True)
             ext = ".exe" if system == System.Windows else ""
             print(
-                f"Install trsync-manager-configure binary at '{trsync_manager_configure_bin_path}' ..."
-            )
-            shutil.copy(
-                pathlib.Path(
-                    f"trsync-manager-configure/dist/trsync-manager-config{ext}"
-                ),
-                trsync_manager_configure_bin_path,
-            )
-            print(
                 f"Install trsync-manager-systray binary at '{trsync_manager_systray_bin_path}' ..."
             )
             shutil.copy(
@@ -222,10 +167,6 @@ def main():
                     f"{message_prefix} default config file at '{trsync_manager_config_path}' ..."
                 )
                 config_content = pathlib.Path("trsync.conf").read_text()
-                config_content = config_content.replace(
-                    "__TRSYNC_MANAGER_CONFIGURE_PATH__",
-                    str(trsync_manager_configure_bin_path),
-                )
                 config_content += f"icons_path = {icons_path}\n"
                 if (
                     not trsync_manager_config_path.exists()
